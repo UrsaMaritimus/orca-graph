@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: AVAI
@@ -25,7 +25,7 @@ dataSources:
         - Upgraded
       abis:
         - name: AVAI
-          file: ./abis/AVAI.json
+          file: AVAI/abis/AVAI.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,uint256)
           handler: handleApproval
@@ -47,4 +47,4 @@ dataSources:
           handler: handleUnpaused
         - event: Upgraded(indexed address)
           handler: handleUpgraded
-      file: ./src/mapping.ts
+      file: AVAI/AVAI.wasm
