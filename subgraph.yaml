@@ -6,7 +6,7 @@ dataSources:
     name: AVAI
     network: fuji
     source:
-      address: "0x4995da5DF5AA38e18206155f6F4178Af2158B6C4"
+      address: '0x4995da5DF5AA38e18206155f6F4178Af2158B6C4'
       abi: AVAI
     mapping:
       kind: ethereum/events
@@ -47,4 +47,44 @@ dataSources:
           handler: handleUnpaused
         - event: Upgraded(indexed address)
           handler: handleUpgraded
-      file: ./src/mapping.ts
+      file: ./src/avai.ts
+templates:
+  - name: Bank
+    kind: ethereum/contract
+    network: fuji
+    source:
+      abi: Bank
+    mapping:
+      abis:
+        - name: Bank
+          file: ./abis/Bank.json
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/bank.ts
+      entities:
+        - CreateVault
+        - DestroyVault
+        - TransferVault
+        - LiquidateVault
+        - DepositCollateral
+        - WithdrawCollateral
+        - BorrowToken
+        - PayBackToken
+      eventHandlers:
+        - event: CreateVault(uint256,address)
+          handler: handleCreateVault
+        - event: DestroyVault(uint256)
+          handler: handleDestroyVault
+        - event: TransferVault(uint256,address,address)
+          handler: handleTransferVault
+        - event: LiquidateVault(uint256,address,address,uint256,uint256)
+          handler: handleLiquidateVaults
+        - event: DepositCollateral(uint256,uint256)
+          handler: handleDepositCollateral
+        - event: WithdrawCollateral(uint256,uint256)
+          handler: handleWithdrawCollateral
+        - event: BorrowToken(uint256,uint256)
+          handler: handleBorrowToken
+        - event: PayBackToken(uint256,uint256,uint256)
+          handler: handlePayBackToken
