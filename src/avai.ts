@@ -1,99 +1,138 @@
-import { BigInt } from '@graphprotocol/graph-ts';
+import { BigInt, log, ethereum, Address } from '@graphprotocol/graph-ts';
 import {
   AVAI,
-  Approval,
   CreateVaultType,
-  OwnershipTransferred,
   Paused,
-  RoleAdminChanged,
-  RoleGranted,
-  RoleRevoked,
   Transfer,
   Unpaused,
-  Upgraded,
 } from '../generated/AVAI/AVAI';
-import { ExampleEntity } from '../generated/schema';
+import { Bank as BankTemplate } from '../generated/templates';
+import { Token, Bank, TokenPrice } from '../generated/schema';
+import { Chainlink } from '../generated/AVAI/Chainlink';
+import {
+  ZERO_BI,
+  fetchTokenSymbol,
+  fetchTokenName,
+  fetchTokenDecimals,
+  fetchStableCount,
+  ZERO_BD,
+  ADDRESS_ZERO,
+  createUser,
+  createStablecoin,
+  getTokenPrice,
+  CHAINLINK_ADDRESSES,
+} from './helpers';
 
-export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex());
+// Handles creating the vault
+export function handleCreateVaultType(event: CreateVaultType): void {
+  // Load Stablecoin or create if first Bank
+  let stablecoin = createStablecoin();
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (entity == null) {
-    entity = new ExampleEntity(event.transaction.from.toHex());
+  stablecoin.bankCount += 1;
+  stablecoin.save();
 
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0);
+  // Create the token
+  let token = Token.load(event.params.token.toHexString());
+  if (token === null) {
+    token = new Token(event.params.token.toHexString());
+    token.symbol = fetchTokenSymbol(event.params.token);
+    token.name = fetchTokenName(event.params.token);
+    let decimals = fetchTokenDecimals(event.params.token);
+
+    if (decimals === null) return;
+    token.decimals = decimals;
+    token.price = getTokenPrice(fetchTokenSymbol(event.params.token)).id;
   }
 
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1);
+  let bank = new Bank(event.params.bank.toHexString());
+  bank.minimumCollateralPercentage = BigInt.fromI32(150);
 
-  // Entity fields can be set based on event parameters
-  entity.owner = event.params.owner;
-  entity.spender = event.params.spender;
+  bank.debtCeiling = BigInt.fromString('10000000000000000000');
+  bank.closingFee = BigInt.fromI32(75);
+  bank.openingFee = ZERO_BI;
+  bank.totalDebt = ZERO_BI;
+  bank.totalCollateral = ZERO_BI;
+  bank.tokenPeg = BigInt.fromString('100000000');
+  bank.debtRatio = BigInt.fromI32(2);
+  bank.gainRatio = BigInt.fromI32(11);
+  bank.vaultCount = 0;
+  bank.treasury = ZERO_BI;
 
-  // Entities can be written to the store with `.save()`
-  entity.save();
+  bank.token = token.id;
+  bank.stablecoin = stablecoin.id;
 
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
+  BankTemplate.create(event.params.bank);
 
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.BURNER_ROLE(...)
-  // - contract.DEFAULT_ADMIN_ROLE(...)
-  // - contract.DOMAIN_SEPARATOR(...)
-  // - contract.MINTER_ROLE(...)
-  // - contract.PAUSER_ROLE(...)
-  // - contract.allowance(...)
-  // - contract.approve(...)
-  // - contract.balanceOf(...)
-  // - contract.banks(...)
-  // - contract.decimals(...)
-  // - contract.decreaseAllowance(...)
-  // - contract.getRoleAdmin(...)
-  // - contract.hasRole(...)
-  // - contract.implementation(...)
-  // - contract.increaseAllowance(...)
-  // - contract.name(...)
-  // - contract.nonces(...)
-  // - contract.owner(...)
-  // - contract.paused(...)
-  // - contract.supportsInterface(...)
-  // - contract.symbol(...)
-  // - contract.totalSupply(...)
-  // - contract.transfer(...)
-  // - contract.transferFrom(...)
-  // - contract.vaultCount(...)
+  token.save();
+  bank.save();
+  stablecoin.save();
 }
 
-export function handleCreateVaultType(event: CreateVaultType): void {}
+export function handlePaused(event: Paused): void {
+  // Load Stablecoin or create if first Bank
+  let stablecoin = createStablecoin();
+  stablecoin.paused = true;
+  stablecoin.save();
+}
 
-export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
+export function handleTransfer(event: Transfer): void {
+  let stablecoin = createStablecoin();
+  let eventToAsHexString = event.params.to.toHexString();
+  let eventFromAsHexString = event.params.from.toHexString();
 
-export function handlePaused(event: Paused): void {}
+  // user stats
+  let from = event.params.from;
+  let to = event.params.to;
+  // Mint
+  if (eventFromAsHexString == ADDRESS_ZERO) {
+    let user = createUser(to);
+    user.balanceStable = user.balanceStable.plus(event.params.value);
+    stablecoin.totalSupply = stablecoin.totalSupply.plus(event.params.value);
+    stablecoin.save();
+    user.save();
+    return;
+  }
 
-export function handleRoleAdminChanged(event: RoleAdminChanged): void {}
+  // Burn
+  if (eventToAsHexString == ADDRESS_ZERO) {
+    log.info('Bruning AVAI', []);
+    let user = createUser(from);
+    user.balanceStable = user.balanceStable.minus(event.params.value);
+    stablecoin.totalSupply = stablecoin.totalSupply.minus(event.params.value);
+    stablecoin.save();
+    user.save();
+    return;
+  }
 
-export function handleRoleGranted(event: RoleGranted): void {}
+  let user1 = createUser(to);
+  let user2 = createUser(from);
 
-export function handleRoleRevoked(event: RoleRevoked): void {}
+  user1.balanceStable = user1.balanceStable.plus(event.params.value);
+  user2.balanceStable = user2.balanceStable.minus(event.params.value);
+  user1.save();
+  user2.save();
+}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleUnpaused(event: Unpaused): void {
+  // Load Stablecoin or create if first Bank
+  let stablecoin = createStablecoin();
+  stablecoin.paused = false;
+  stablecoin.save();
+}
 
-export function handleUnpaused(event: Unpaused): void {}
-
-export function handleUpgraded(event: Upgraded): void {}
+export function handleBlock(block: ethereum.Block): void {
+  CHAINLINK_ADDRESSES.entries.forEach((token) => {
+    let tokenPrice = TokenPrice.load(token.key);
+    if (tokenPrice === null) {
+      tokenPrice = new TokenPrice(token.key);
+      tokenPrice.priceUSD = ZERO_BI;
+      tokenPrice.save();
+    }
+    let chainlink = Chainlink.bind(Address.fromString(token.value));
+    let priceTemp = chainlink.try_latestRoundData();
+    if (!priceTemp.reverted) {
+      tokenPrice.priceUSD = priceTemp.value.value1;
+    }
+    tokenPrice.save();
+  });
+}

@@ -84,6 +84,42 @@ export class BorrowToken__Params {
   }
 }
 
+export class ChangeDebtRatio extends ethereum.Event {
+  get params(): ChangeDebtRatio__Params {
+    return new ChangeDebtRatio__Params(this);
+  }
+}
+
+export class ChangeDebtRatio__Params {
+  _event: ChangeDebtRatio;
+
+  constructor(event: ChangeDebtRatio) {
+    this._event = event;
+  }
+
+  get newDebtRatio(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class ChangeGainRatio extends ethereum.Event {
+  get params(): ChangeGainRatio__Params {
+    return new ChangeGainRatio__Params(this);
+  }
+}
+
+export class ChangeGainRatio__Params {
+  _event: ChangeGainRatio;
+
+  constructor(event: ChangeGainRatio) {
+    this._event = event;
+  }
+
+  get newGainRatio(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class CreateVault extends ethereum.Event {
   get params(): CreateVault__Params {
     return new CreateVault__Params(this);
@@ -146,6 +182,28 @@ export class DestroyVault__Params {
   }
 }
 
+export class GetPaid extends ethereum.Event {
+  get params(): GetPaid__Params {
+    return new GetPaid__Params(this);
+  }
+}
+
+export class GetPaid__Params {
+  _event: GetPaid;
+
+  constructor(event: GetPaid) {
+    this._event = event;
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get user(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class LiquidateVault extends ethereum.Event {
   get params(): LiquidateVault__Params {
     return new LiquidateVault__Params(this);
@@ -177,6 +235,82 @@ export class LiquidateVault__Params {
 
   get tokenExtract(): BigInt {
     return this._event.parameters[4].value.toBigInt();
+  }
+
+  get closingFee(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+}
+
+export class NewClosingFee extends ethereum.Event {
+  get params(): NewClosingFee__Params {
+    return new NewClosingFee__Params(this);
+  }
+}
+
+export class NewClosingFee__Params {
+  _event: NewClosingFee;
+
+  constructor(event: NewClosingFee) {
+    this._event = event;
+  }
+
+  get newClosingFee(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class NewDebtCeiling extends ethereum.Event {
+  get params(): NewDebtCeiling__Params {
+    return new NewDebtCeiling__Params(this);
+  }
+}
+
+export class NewDebtCeiling__Params {
+  _event: NewDebtCeiling;
+
+  constructor(event: NewDebtCeiling) {
+    this._event = event;
+  }
+
+  get newDebtCeiling(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class NewOpeningFee extends ethereum.Event {
+  get params(): NewOpeningFee__Params {
+    return new NewOpeningFee__Params(this);
+  }
+}
+
+export class NewOpeningFee__Params {
+  _event: NewOpeningFee;
+
+  constructor(event: NewOpeningFee) {
+    this._event = event;
+  }
+
+  get newOpeningFee(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class NewPeg extends ethereum.Event {
+  get params(): NewPeg__Params {
+    return new NewPeg__Params(this);
+  }
+}
+
+export class NewPeg__Params {
+  _event: NewPeg;
+
+  constructor(event: NewPeg) {
+    this._event = event;
+  }
+
+  get newPew(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 }
 
