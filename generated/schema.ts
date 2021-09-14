@@ -561,3 +561,70 @@ export class Liquidation extends Entity {
     this.set("owed", Value.fromBigInt(value));
   }
 }
+
+export class Exchange extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Exchange entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Exchange entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Exchange", id.toString(), this);
+  }
+
+  static load(id: string): Exchange | null {
+    return store.get("Exchange", id) as Exchange | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get usdHeld(): BigInt {
+    let value = this.get("usdHeld");
+    return value.toBigInt();
+  }
+
+  set usdHeld(value: BigInt) {
+    this.set("usdHeld", Value.fromBigInt(value));
+  }
+
+  get treasury(): BigInt {
+    let value = this.get("treasury");
+    return value.toBigInt();
+  }
+
+  set treasury(value: BigInt) {
+    this.set("treasury", Value.fromBigInt(value));
+  }
+
+  get mintingFee(): BigInt {
+    let value = this.get("mintingFee");
+    return value.toBigInt();
+  }
+
+  set mintingFee(value: BigInt) {
+    this.set("mintingFee", Value.fromBigInt(value));
+  }
+
+  get redeemingFee(): BigInt {
+    let value = this.get("redeemingFee");
+    return value.toBigInt();
+  }
+
+  set redeemingFee(value: BigInt) {
+    this.set("redeemingFee", Value.fromBigInt(value));
+  }
+}

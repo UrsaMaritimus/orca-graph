@@ -179,19 +179,17 @@ export function handleNewDebtCeiling(event: NewDebtCeiling): void {
   bank.debtCeiling = newDebtCeiling;
   bank.save();
 }
+
+// Needs work
 export function handleGetPaid(event: GetPaid): void {
   let caller = event.params.user;
   let amount = event.params.amount;
   let liquidation = Liquidation.load(
     caller.toHexString() + amount.toHexString()
   );
-  log.info('liquidation value, why you no work: {}', [
+  log.info('liquidation value, please work: {}', [
     caller.toHexString() + amount.toHexString(),
   ]);
-
-  if (liquidation === null) {
-    return;
-  }
 
   // Remove it
   store.remove('Liquidation', caller.toHexString() + amount.toHexString());

@@ -39,7 +39,45 @@ dataSources:
           handler: handleTransfer
         - event: Unpaused(address)
           handler: handleUnpaused
+      blockHandlers:
+        - handler: handleBlock
       file: ./src/avai.ts
+  - kind: ethereum/contract
+    name: Exchange
+    network: fuji
+    source:
+      address: '0x76c09De72a38C54B3a42065fC543CfaC140e22B8'
+      abi: Exchange
+      startBlock: 1224253
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Bank
+        - Stablecoin
+        - Token
+        - User
+        - TokenPrice
+      abis:
+        - name: AVAI
+          file: ./abis/AVAI.json
+        - name: ERC20
+          file: ./abis/ERC20.json
+        - name: ERC20SymbolBytes
+          file: ./abis/ERC20SymbolBytes.json
+        - name: ERC20NameBytes
+          file: ./abis/ERC20NameBytes.json
+        - name: Chainlink
+          file: ./abis/Chainlink.json
+        - name: Exchange
+          file: ./abis/Exchange.json
+      eventHandlers:
+        - event: Mint(address,uint256,uint256)
+          handler: handleMint
+        - event: Redeem(address,uint256,uint256)
+          handler: handleRedeem
+      file: ./src/exchange.ts
 
 templates:
   - name: Bank

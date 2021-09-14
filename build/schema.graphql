@@ -97,3 +97,12 @@ type Liquidation @entity {
   token: Token!
   owed: BigInt!
 }
+
+type Exchange @entity {
+  # contract address
+  id: ID!
+  usdHeld: BigInt!
+  treasury: BigInt!
+  mintingFee: BigInt!
+  redeemingFee: BigInt!
+}
