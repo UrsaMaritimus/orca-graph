@@ -66,7 +66,9 @@ export function handleLiquidateVaults(event: LiquidateVault): void {
   bank.treasury = bank.treasury.plus(closingFee);
 
   // The fee goes to the treasury, not technically TVL
-  bank.totalCollateral = bank.totalCollateral.minus(tokenExtract);
+  bank.totalCollateral = bank.totalCollateral
+    .minus(tokenExtract)
+    .minus(closingFee);
 
   // Update debt
   vault.debt = vault.debt.minus(halfDebt);
@@ -167,6 +169,7 @@ export function handlePayBackToken(event: PayBackToken): void {
   bank.totalDebt = bank.totalDebt.minus(amount);
 
   vault.collateral = vault.collateral.minus(closingFee);
+  bank.totalCollateral = bank.totalCollateral.minus(closingFee);
   bank.treasury = bank.treasury.plus(closingFee);
 
   vault.save();

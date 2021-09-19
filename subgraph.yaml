@@ -39,8 +39,6 @@ dataSources:
           handler: handleTransfer
         - event: Unpaused(address)
           handler: handleUnpaused
-      blockHandlers:
-        - handler: handleBlock
       file: ./src/avai.ts
   - kind: ethereum/contract
     name: Exchange
@@ -48,7 +46,7 @@ dataSources:
     source:
       address: '0x76c09De72a38C54B3a42065fC543CfaC140e22B8'
       abi: Exchange
-      startBlock: 1224253
+      startBlock: 1565334
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -78,6 +76,44 @@ dataSources:
         - event: Redeem(address,uint256,uint256)
           handler: handleRedeem
       file: ./src/exchange.ts
+  - kind: ethereum/contract
+    name: PodLeader
+    network: fuji
+    source:
+      address: '0x2cD766a722622395E74daD1647aae3AAAc097930'
+      abi: PodLeader
+      startBlock: 1224253
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - PodLeader
+      abis:
+        - name: PodLeader
+          file: ./abis/PodLeader.json
+      eventHandlers:
+        - event: ChangedRewardsEndTimestamp(indexed uint256,indexed uint256)
+          handler: handleChangedRewardsEndTimestamp
+        - event: ChangedRewardsPerSecond(indexed uint256,indexed uint256)
+          handler: handleChangedRewardsPerSecond
+        - event: ChangedTreasury(indexed address,indexed address)
+          handler: handleChangedTreasury
+        - event: Deposit(indexed address,indexed uint256,uint256,uint256)
+          handler: handleDeposit
+        - event: DepositFeeUpdated(indexed uint256,uint16,uint16)
+          handler: handleFeeUpdated
+        - event: EmergencyWithdraw(indexed address,indexed uint256,uint256)
+          handler: handleEmergencyWithdraw
+        - event: PoolAdded(indexed uint256,indexed address,uint256,uint256,uint256,uint16)
+          handler: handlePoolAdded
+        - event: PoolUpdated(indexed uint256,uint256,uint256,uint256)
+          handler: handlePoolUpdated
+        - event: SetRewardsStartTimestamp(indexed uint256)
+          handler: handleSetRewardsStartTimestamp
+        - event: Withdraw(indexed address,indexed uint256,uint256)
+          handler: handleWithdraw
+      file: ./src/podLeader.ts
 
 templates:
   - name: Bank

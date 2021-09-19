@@ -1,6 +1,5 @@
 import { BigInt, log, ethereum, Address } from '@graphprotocol/graph-ts';
 import {
-  AVAI,
   CreateVaultType,
   Paused,
   Transfer,
@@ -14,8 +13,6 @@ import {
   fetchTokenSymbol,
   fetchTokenName,
   fetchTokenDecimals,
-  fetchStableCount,
-  ZERO_BD,
   ADDRESS_ZERO,
   createUser,
   createStablecoin,

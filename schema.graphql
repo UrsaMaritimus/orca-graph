@@ -86,8 +86,11 @@ type User @entity {
   # user address
   id: ID!
   balanceStable: BigInt!
-  vaults: [Vault!]! @derivedFrom(field: "user")
-  liquidations: [Liquidation!]! @derivedFrom(field: "user")
+
+  #derived fields
+  vaults: [Vault!] @derivedFrom(field: "user")
+  liquidations: [Liquidation!] @derivedFrom(field: "user")
+  pools: [PoolUser!] @derivedFrom(field: "user")
 }
 
 type Liquidation @entity {
@@ -105,4 +108,43 @@ type Exchange @entity {
   treasury: BigInt!
   mintingFee: BigInt!
   redeemingFee: BigInt!
+}
+
+type PodLeader @entity {
+  # cotnract address
+  id: ID!
+  treasury: Bytes!
+  startTimestamp: BigInt!
+  endTimestamp: BigInt!
+  orca: Bytes!
+  orcaPerSec: BigInt!
+  totalAllocPoints: BigInt!
+  poolCount: BigInt!
+
+  #derived fields
+  pools: [Pool!]! @derivedFrom(field: "leader")
+}
+
+type Pool @entity {
+  # pid
+  id: ID!
+  leader: PodLeader!
+  pair: Bytes!
+  allocPoint: BigInt!
+  lastRewardTimestamp: BigInt!
+  totalStaked: BigInt!
+  depositFee: BigInt!
+  userCount: BigInt!
+  treasuryAmount: BigInt!
+
+  #derived fields
+  users: [PoolUser!]! @derivedFrom(field: "pool")
+}
+
+type PoolUser @entity {
+  id: ID! # Set to `${user.id}-${pool.id}`
+  pool: Pool!
+  user: User!
+  staked: BigInt!
+  lastTimestamp: BigInt!
 }
