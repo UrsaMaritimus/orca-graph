@@ -6,6 +6,7 @@ import { Bank, Stablecoin, User, Vault, TokenPrice } from '../generated/schema';
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
 export const FACTORY_ADDRESS = '0x4995da5DF5AA38e18206155f6F4178Af2158B6C4';
+export const ADDRESS_TEAM = ADDRESS_ZERO;
 
 export let ZERO_BI = BigInt.fromI32(0);
 export let ONE_BI = BigInt.fromI32(1);

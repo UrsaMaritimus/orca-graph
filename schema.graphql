@@ -148,3 +148,12 @@ type PoolUser @entity {
   staked: BigInt!
   lastTimestamp: BigInt!
 }
+
+type Orca @entity {
+  id: ID!
+  maxSupply: BigInt!
+  circulatingSupply: BigInt!
+  treasury: Bytes!
+  leader: Bytes!
+  team: Bytes!
+}

@@ -1,6 +1,5 @@
-import { store, BigInt, log } from '@graphprotocol/graph-ts';
+import { store, log } from '@graphprotocol/graph-ts';
 import {
-  Bank as BankContract,
   CreateVault,
   DestroyVault,
   TransferVault,

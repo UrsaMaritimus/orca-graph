@@ -943,3 +943,79 @@ export class PoolUser extends Entity {
     this.set("lastTimestamp", Value.fromBigInt(value));
   }
 }
+
+export class Orca extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Orca entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Orca entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Orca", id.toString(), this);
+  }
+
+  static load(id: string): Orca | null {
+    return store.get("Orca", id) as Orca | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get maxSupply(): BigInt {
+    let value = this.get("maxSupply");
+    return value.toBigInt();
+  }
+
+  set maxSupply(value: BigInt) {
+    this.set("maxSupply", Value.fromBigInt(value));
+  }
+
+  get circulatingSupply(): BigInt {
+    let value = this.get("circulatingSupply");
+    return value.toBigInt();
+  }
+
+  set circulatingSupply(value: BigInt) {
+    this.set("circulatingSupply", Value.fromBigInt(value));
+  }
+
+  get treasury(): Bytes {
+    let value = this.get("treasury");
+    return value.toBytes();
+  }
+
+  set treasury(value: Bytes) {
+    this.set("treasury", Value.fromBytes(value));
+  }
+
+  get leader(): Bytes {
+    let value = this.get("leader");
+    return value.toBytes();
+  }
+
+  set leader(value: Bytes) {
+    this.set("leader", Value.fromBytes(value));
+  }
+
+  get team(): Bytes {
+    let value = this.get("team");
+    return value.toBytes();
+  }
+
+  set team(value: Bytes) {
+    this.set("team", Value.fromBytes(value));
+  }
+}

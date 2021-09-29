@@ -114,6 +114,26 @@ dataSources:
         - event: Withdraw(indexed address,indexed uint256,uint256)
           handler: handleWithdraw
       file: PodLeader/PodLeader.wasm
+  - kind: ethereum/contract
+    name: Orca
+    network: fuji
+    source:
+      address: "0xb3308FD93936e5EFb9A1F2C6a513DEf68175Cb5d"
+      abi: Orca
+      startBlock: 1224253
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Orca
+      abis:
+        - name: Orca
+          file: Orca/abis/Orca.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: Orca/Orca.wasm
 templates:
   - name: Bank
     kind: ethereum/contract
