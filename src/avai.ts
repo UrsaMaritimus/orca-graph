@@ -92,7 +92,6 @@ export function handleTransfer(event: Transfer): void {
 
   // Burn
   if (eventToAsHexString == ADDRESS_ZERO) {
-    log.info('Bruning AVAI', []);
     let user = createUser(from);
     user.balanceStable = user.balanceStable.minus(event.params.value);
     stablecoin.totalSupply = stablecoin.totalSupply.minus(event.params.value);

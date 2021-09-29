@@ -5,7 +5,7 @@ import { Chainlink } from '../generated/AVAI/Chainlink';
 import { Bank, Stablecoin, User, Vault, TokenPrice } from '../generated/schema';
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
-export const FACTORY_ADDRESS = '0x4995da5DF5AA38e18206155f6F4178Af2158B6C4';
+export const FACTORY_ADDRESS = '0x346A59146b9b4a77100D369a3d18E8007A9F46a6';
 export const ADDRESS_TEAM = ADDRESS_ZERO;
 
 export let ZERO_BI = BigInt.fromI32(0);
@@ -16,7 +16,7 @@ export let BI_18 = BigInt.fromI32(18);
 export let TEN_BI = BigInt.fromI32(10);
 
 export let CHAINLINK_ADDRESSES = new TypedMap<string, string>();
-CHAINLINK_ADDRESSES.set('WAVAX', '0x5498BB86BC934c8D34FDA08E81D444153d0D06aD');
+CHAINLINK_ADDRESSES.set('WAVAX', '0x0A77230d17318075983913bC2145DB16C7366156');
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');

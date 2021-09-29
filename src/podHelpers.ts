@@ -3,8 +3,8 @@ import { BigInt, Bytes } from '@graphprotocol/graph-ts';
 import { PodLeader } from '../generated/schema';
 import { ADDRESS_ZERO } from './helpers';
 
-export const POD_LEADER_ADDRESS = '0x2cD766a722622395E74daD1647aae3AAAc097930';
-const ORCA_ADDRESS = '0xb3308FD93936e5EFb9A1F2C6a513DEf68175Cb5d';
+export const POD_LEADER_ADDRESS = '0x111E1E97435b57467E79d4930acc4B7EB3d478ad';
+const ORCA_ADDRESS = '0x8B1d98A91F853218ddbb066F20b8c63E782e2430';
 
 export function createPodLeader(): PodLeader {
   let podLeader = PodLeader.load(POD_LEADER_ADDRESS);
