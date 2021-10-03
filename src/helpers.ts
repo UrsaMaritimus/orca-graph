@@ -151,12 +151,13 @@ export function createStablecoin(): Stablecoin {
 }
 
 export function createVault(vaultID: BigInt, bank: Bank, user: User): Vault {
-  let vault = Vault.load(vaultID.toHexString());
+  let vault = Vault.load(vaultID.toHexString() + '-' + bank.id);
 
   if (vault === null) {
-    vault = new Vault(vaultID.toHexString());
+    vault = new Vault(vaultID.toHexString() + '-' + bank.id);
     vault.bank = bank.id;
     vault.collateral = ZERO_BI;
+    vault.number = vaultID.toI32();
     vault.debt = ZERO_BI;
     vault.user = user.id;
     vault.save();

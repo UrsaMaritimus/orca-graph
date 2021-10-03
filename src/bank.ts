@@ -159,7 +159,6 @@ export function handlePayBackToken(event: PayBackToken): void {
   let token = Token.load(bank.token);
   let user = createUser(event.transaction.from);
   let vault = createVault(id, bank as Bank, user);
-
   // Updates token price
   getTokenPrice(token.symbol);
 

@@ -71,9 +71,9 @@ type Bank @entity {
 }
 
 type Vault @entity {
-  # is vault ID
+  # is vault ID + bank id
   id: ID!
-
+  number: Int!
   collateral: BigInt!
 
   debt: BigInt!

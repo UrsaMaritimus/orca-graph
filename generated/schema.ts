@@ -409,6 +409,15 @@ export class Vault extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get number(): i32 {
+    let value = this.get("number");
+    return value.toI32();
+  }
+
+  set number(value: i32) {
+    this.set("number", Value.fromI32(value));
+  }
+
   get collateral(): BigInt {
     let value = this.get("collateral");
     return value.toBigInt();

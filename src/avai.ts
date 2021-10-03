@@ -42,7 +42,7 @@ export function handleCreateVaultType(event: CreateVaultType): void {
   }
 
   let bank = new Bank(event.params.bank.toHexString());
-  bank.minimumCollateralPercentage = BigInt.fromI32(150);
+  bank.minimumCollateralPercentage = event.params.minimumCollateralPercentage;
 
   bank.debtCeiling = BigInt.fromString('10000000000000000000');
   bank.closingFee = BigInt.fromI32(75);
