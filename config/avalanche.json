@@ -1,0 +1,9 @@
+{
+  "network": "avalanche",
+  "startblock": 4969860,
+  "avai": "0x346A59146b9b4a77100D369a3d18E8007A9F46a6",
+  "exchange": "0x2bb9c8c7FB619aD669C99FEa6947eE52c30eb0A5",
+  "podleader": "0x111E1E97435b57467E79d4930acc4B7EB3d478ad",
+  "orca": "0x8B1d98A91F853218ddbb066F20b8c63E782e2430",
+  "orcaStaking": ""
+}

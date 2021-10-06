@@ -91,6 +91,7 @@ type User @entity {
   vaults: [Vault!] @derivedFrom(field: "user")
   liquidations: [Liquidation!] @derivedFrom(field: "user")
   pools: [PoolUser!] @derivedFrom(field: "user")
+  staking: [StakingUser!] @derivedFrom(field: "user")
 }
 
 type Liquidation @entity {
@@ -156,4 +157,25 @@ type Orca @entity {
   treasury: Bytes!
   leader: Bytes!
   team: Bytes!
+}
+
+type Staking @entity {
+  # cotnract address
+  id: ID!
+  startTimestamp: BigInt!
+  endTimestamp: BigInt!
+  orca: Bytes!
+  avaxPerSec: BigInt!
+  totalAllocPoints: BigInt!
+
+  # derived field
+  users: [StakingUser!]! @derivedFrom(field: "staking")
+}
+
+type StakingUser @entity {
+  id: ID! # Set to `${user.id}-${pool.id}`
+  staking: Staking!
+  user: User!
+  staked: BigInt!
+  lastTimestamp: BigInt!
 }

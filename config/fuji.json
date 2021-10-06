@@ -1,0 +1,9 @@
+{
+  "network": "fuji",
+  "startblock": 1224253,
+  "avai": "0x41f8511b889D2e32A889DAD14a9EeD9c2c737385",
+  "exchange": "0x76c09De72a38C54B3a42065fC543CfaC140e22B8",
+  "podleader": "0x2cD766a722622395E74daD1647aae3AAAc097930",
+  "orca": "0xb3308FD93936e5EFb9A1F2C6a513DEf68175Cb5d",
+  "orcaStaking": "0xD6Dd95C483bEfe87bf8cf9CE74438b057C93510E"
+}
