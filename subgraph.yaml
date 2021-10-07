@@ -147,8 +147,6 @@ dataSources:
           handler: handleChangedRewardsEndTimestamp
         - event: ChangedRewardsPerSecond(indexed uint256,indexed uint256)
           handler: handleChangedRewardsPerSecond
-        - event: ChangedTreasury(indexed address,indexed address)
-          handler: handleChangedTreasury
         - event: Deposit(indexed address,indexed uint256,uint256)
           handler: handleDeposit
         - event: EmergencyWithdraw(indexed address,indexed uint256,uint256)

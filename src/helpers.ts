@@ -17,6 +17,7 @@ export let TEN_BI = BigInt.fromI32(10);
 
 export let CHAINLINK_ADDRESSES = new TypedMap<string, string>();
 CHAINLINK_ADDRESSES.set('WAVAX', '0x0A77230d17318075983913bC2145DB16C7366156');
+CHAINLINK_ADDRESSES.set('WETH.e', '0x976B3D034E162d8bD72D6b9C989d545b839003b0');
 
 export function exponentToBigDecimal(decimals: BigInt): BigDecimal {
   let bd = BigDecimal.fromString('1');

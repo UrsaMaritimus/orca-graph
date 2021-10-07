@@ -1094,15 +1094,6 @@ export class Staking extends Entity {
     this.set("endTimestamp", Value.fromBigInt(value));
   }
 
-  get orca(): Bytes {
-    let value = this.get("orca");
-    return value.toBytes();
-  }
-
-  set orca(value: Bytes) {
-    this.set("orca", Value.fromBytes(value));
-  }
-
   get avaxPerSec(): BigInt {
     let value = this.get("avaxPerSec");
     return value.toBigInt();
@@ -1119,6 +1110,15 @@ export class Staking extends Entity {
 
   set totalAllocPoints(value: BigInt) {
     this.set("totalAllocPoints", Value.fromBigInt(value));
+  }
+
+  get totalStaked(): BigInt {
+    let value = this.get("totalStaked");
+    return value.toBigInt();
+  }
+
+  set totalStaked(value: BigInt) {
+    this.set("totalStaked", Value.fromBigInt(value));
   }
 
   get users(): Array<string> {
@@ -1186,14 +1186,5 @@ export class StakingUser extends Entity {
 
   set staked(value: BigInt) {
     this.set("staked", Value.fromBigInt(value));
-  }
-
-  get lastTimestamp(): BigInt {
-    let value = this.get("lastTimestamp");
-    return value.toBigInt();
-  }
-
-  set lastTimestamp(value: BigInt) {
-    this.set("lastTimestamp", Value.fromBigInt(value));
   }
 }

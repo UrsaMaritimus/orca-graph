@@ -160,13 +160,13 @@ type Orca @entity {
 }
 
 type Staking @entity {
-  # cotnract address
+  # contract address
   id: ID!
   startTimestamp: BigInt!
   endTimestamp: BigInt!
-  orca: Bytes!
   avaxPerSec: BigInt!
   totalAllocPoints: BigInt!
+  totalStaked: BigInt!
 
   # derived field
   users: [StakingUser!]! @derivedFrom(field: "staking")
@@ -177,5 +177,4 @@ type StakingUser @entity {
   staking: Staking!
   user: User!
   staked: BigInt!
-  lastTimestamp: BigInt!
 }
