@@ -3,7 +3,7 @@ import { BigInt, log } from '@graphprotocol/graph-ts';
 import { Staking } from '../generated/schema';
 
 // TODO main net
-export const STAKING_ADDRESS = '0xd6dd95c483befe87bf8cf9ce74438b057c93510e';
+export const STAKING_ADDRESS = '0xA3654801Ba6FB21d5A984F9a857441395dDeccFb';
 
 export function createStaking(): Staking {
   let staking = Staking.load(STAKING_ADDRESS);
