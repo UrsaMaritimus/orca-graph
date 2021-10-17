@@ -26,7 +26,7 @@ export function handleCreateVault(event: CreateVault): void {
 }
 export function handleDestroyVault(event: DestroyVault): void {
   let bank = Bank.load(event.address.toHexString());
-  store.remove('Vault', event.params.vaultID.toHexString());
+  store.remove('Vault', event.params.vaultID.toHexString() + '-' + bank.id);
   bank.vaultCount -= 1;
   bank.save();
 }

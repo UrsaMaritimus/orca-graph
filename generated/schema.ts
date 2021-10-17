@@ -1121,6 +1121,15 @@ export class Staking extends Entity {
     this.set("totalStaked", Value.fromBigInt(value));
   }
 
+  get userCount(): BigInt {
+    let value = this.get("userCount");
+    return value.toBigInt();
+  }
+
+  set userCount(value: BigInt) {
+    this.set("userCount", Value.fromBigInt(value));
+  }
+
   get users(): Array<string> {
     let value = this.get("users");
     return value.toStringArray();

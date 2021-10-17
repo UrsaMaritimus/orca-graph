@@ -53,6 +53,7 @@ export function handleDeposit(event: Deposit): void {
     poolUser.user = user.id;
     poolUser.staked = BigInt.fromI32(0);
     poolUser.lastTimestamp = event.block.timestamp;
+    pool.userCount = pool.userCount.plus(BigInt.fromI32(1));
     poolUser.save();
   }
 
@@ -80,7 +81,7 @@ export function handleEmergencyWithdraw(event: EmergencyWithdraw): void {
   let pool = Pool.load(pid.toHexString());
   let user = createUser(userAddress);
   let poolUser = PoolUser.load(user.id + '-' + pool.id);
-
+  pool.userCount = pool.userCount.minus(BigInt.fromI32(1));
   pool.totalStaked = pool.totalStaked.minus(amount);
   pool.save();
 
@@ -144,7 +145,9 @@ export function handleWithdraw(event: Withdraw): void {
   let pool = Pool.load(pid.toHexString());
   let user = createUser(userAddress);
   let poolUser = PoolUser.load(user.id + '-' + pool.id);
-
+  if (amount.equals(poolUser.staked)) {
+    pool.userCount = pool.userCount.minus(BigInt.fromI32(1));
+  }
   pool.lastRewardTimestamp = event.block.timestamp;
   pool.totalStaked = pool.totalStaked.minus(amount);
   pool.save();

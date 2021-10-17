@@ -42,6 +42,7 @@ export function handleDeposit(event: Deposit): void {
     stakingUser.staking = staking.id;
     stakingUser.user = user.id;
     stakingUser.staked = BigInt.fromI32(0);
+    staking.userCount = staking.userCount.plus(BigInt.fromI32(1));
     stakingUser.save();
   }
 
@@ -59,7 +60,7 @@ export function handleEmergencyWithdraw(event: EmergencyWithdraw): void {
   let staking = createStaking();
   let user = createUser(userAddress);
   let stakingUser = StakingUser.load(user.id);
-
+  staking.userCount = staking.userCount.minus(BigInt.fromI32(1));
   staking.totalStaked = staking.totalStaked.minus(amount);
   staking.save();
 
@@ -97,7 +98,9 @@ export function handleWithdraw(event: Withdraw): void {
   let staking = createStaking();
   let user = createUser(userAddress);
   let stakingUser = StakingUser.load(user.id);
-
+  if (amount.equals(stakingUser.staked)) {
+    staking.userCount = staking.userCount.minus(BigInt.fromI32(1));
+  }
   staking.totalStaked = staking.totalStaked.minus(amount);
   staking.save();
 

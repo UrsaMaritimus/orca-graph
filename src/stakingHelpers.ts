@@ -15,6 +15,7 @@ export function createStaking(): Staking {
     staking.avaxPerSec = BigInt.fromString('1000000000000000000');
     staking.totalAllocPoints = BigInt.fromI32(0);
     staking.totalStaked = BigInt.fromI32(0);
+    staking.userCount = BigInt.fromI32(0);
     staking.save();
   }
 

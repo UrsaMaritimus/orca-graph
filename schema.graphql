@@ -167,6 +167,7 @@ type Staking @entity {
   avaxPerSec: BigInt!
   totalAllocPoints: BigInt!
   totalStaked: BigInt!
+  userCount: BigInt!
 
   # derived field
   users: [StakingUser!]! @derivedFrom(field: "staking")
