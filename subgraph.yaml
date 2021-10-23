@@ -160,6 +160,41 @@ dataSources:
         - event: Withdraw(indexed address,indexed uint256,uint256)
           handler: handleWithdraw
       file: ./src/orcaStaking.ts
+  - kind: ethereum/contract
+    name: StormStaking
+    network: avalanche
+    source:
+      address: '0xDcc614ee35e03e742C08779F40481dB81Cf8C0a8'
+      abi: SingleStaking
+      startBlock: 4969860
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - SingleStaking
+      abis:
+        - name: SingleStaking
+          file: ./abis/SingleStaking.json
+      eventHandlers:
+        - event: ChangedRewardsEndTimestamp(indexed uint256,indexed uint256)
+          handler: handleChangedRewardsEndTimestamp
+        - event: ChangedRewardsPerSecond(indexed uint256,indexed uint256)
+          handler: handleChangedRewardsPerSecond
+        - event: Deposit(indexed address,indexed uint256,uint256)
+          handler: handleDeposit
+        - event: EmergencyWithdraw(indexed address,indexed uint256,uint256)
+          handler: handleEmergencyWithdraw
+        - event: PoolAdded(indexed uint256,indexed address,uint256,uint256,uint256)
+          handler: handlePoolAdded
+        - event: PoolUpdated(indexed uint256,uint256,uint256,uint256)
+          handler: handlePoolUpdated
+        - event: SetRewardsStartTimestamp(indexed uint256)
+          handler: handleSetRewardsStartTimestamp
+        - event: Withdraw(indexed address,indexed uint256,uint256)
+          handler: handleWithdraw
+      file: ./src/singleStaking.ts
+
 
 templates:
   - name: Bank
