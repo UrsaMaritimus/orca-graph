@@ -14,7 +14,7 @@ import {
 } from '../generated/templates/Bank/Bank';
 
 import { Bank, Liquidation, Token } from '../generated/schema';
-import { createUser, createVault, getTokenPrice } from './helpers';
+import { createUser, createVault } from './helpers';
 
 export function handleCreateVault(event: CreateVault): void {
   let bank = Bank.load(event.address.toHexString());
@@ -26,7 +26,23 @@ export function handleCreateVault(event: CreateVault): void {
 }
 export function handleDestroyVault(event: DestroyVault): void {
   let bank = Bank.load(event.address.toHexString());
+
+  let id = event.params.vaultID;
+  let user = createUser(event.transaction.from);
+  let vault = createVault(id, bank as Bank, user);
+  log.info(
+    'Destroy vault id: {}, bank id: {}, vault collateral: {}, bank totalCollateral: {}',
+    [
+      id.toHexString(),
+      bank.id,
+      vault.collateral.toString(),
+      bank.totalCollateral.toString(),
+    ]
+  );
+  bank.totalCollateral = bank.totalCollateral.minus(vault.collateral);
+
   store.remove('Vault', event.params.vaultID.toHexString() + '-' + bank.id);
+
   bank.vaultCount -= 1;
   bank.save();
 }
@@ -56,9 +72,6 @@ export function handleLiquidateVaults(event: LiquidateVault): void {
   let token = Token.load(bank.token);
   let user = createUser(caller);
   let vault = createVault(vaultID, bank as Bank, user);
-
-  // Updates token price
-  getTokenPrice(token.symbol);
 
   // Update this vault's collateral and debt
   vault.collateral = vault.collateral.minus(closingFee).minus(tokenExtract);
@@ -95,12 +108,8 @@ export function handleDepositCollateral(event: DepositCollateral): void {
   let amount = event.params.amount;
   let id = event.params.vaultID;
   let bank = Bank.load(event.address.toHexString());
-  let token = Token.load(bank.token);
   let user = createUser(event.transaction.from);
   let vault = createVault(id, bank as Bank, user);
-
-  // Updates token price
-  getTokenPrice(token.symbol);
 
   // Update this vault's collateral
   vault.collateral = vault.collateral.plus(amount);
@@ -116,12 +125,8 @@ export function handleWithdrawCollateral(event: WithdrawCollateral): void {
   let id = event.params.vaultID;
 
   let bank = Bank.load(event.address.toHexString());
-  let token = Token.load(bank.token);
   let user = createUser(event.transaction.from);
   let vault = createVault(id, bank as Bank, user);
-
-  // Updates token price
-  getTokenPrice(token.symbol);
 
   // Update this vault's collateral
   vault.collateral = vault.collateral.minus(amount);
@@ -135,12 +140,8 @@ export function handleBorrowToken(event: BorrowToken): void {
   let id = event.params.vaultID;
 
   let bank = Bank.load(event.address.toHexString());
-  let token = Token.load(bank.token);
   let user = createUser(event.transaction.from);
   let vault = createVault(id, bank as Bank, user);
-
-  // Updates token price
-  getTokenPrice(token.symbol);
 
   // Update this vault's collateral
   vault.debt = vault.debt.plus(amount);
@@ -156,11 +157,8 @@ export function handlePayBackToken(event: PayBackToken): void {
   let closingFee = event.params.closingFee;
 
   let bank = Bank.load(event.address.toHexString());
-  let token = Token.load(bank.token);
   let user = createUser(event.transaction.from);
   let vault = createVault(id, bank as Bank, user);
-  // Updates token price
-  getTokenPrice(token.symbol);
 
   // Update this vault's collateral
   vault.debt = vault.debt.minus(amount);

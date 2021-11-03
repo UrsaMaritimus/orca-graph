@@ -62,6 +62,24 @@ export class ApprovalForAll__Params {
   }
 }
 
+export class BankPaused extends ethereum.Event {
+  get params(): BankPaused__Params {
+    return new BankPaused__Params(this);
+  }
+}
+
+export class BankPaused__Params {
+  _event: BankPaused;
+
+  constructor(event: BankPaused) {
+    this._event = event;
+  }
+
+  get mintingPaused(): boolean {
+    return this._event.parameters[0].value.toBoolean();
+  }
+}
+
 export class BorrowToken extends ethereum.Event {
   get params(): BorrowToken__Params {
     return new BorrowToken__Params(this);
@@ -278,6 +296,60 @@ export class NewDebtCeiling__Params {
   }
 }
 
+export class NewGateway extends ethereum.Event {
+  get params(): NewGateway__Params {
+    return new NewGateway__Params(this);
+  }
+}
+
+export class NewGateway__Params {
+  _event: NewGateway;
+
+  constructor(event: NewGateway) {
+    this._event = event;
+  }
+
+  get newGateway(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class NewMinimumCollateralPercentage extends ethereum.Event {
+  get params(): NewMinimumCollateralPercentage__Params {
+    return new NewMinimumCollateralPercentage__Params(this);
+  }
+}
+
+export class NewMinimumCollateralPercentage__Params {
+  _event: NewMinimumCollateralPercentage;
+
+  constructor(event: NewMinimumCollateralPercentage) {
+    this._event = event;
+  }
+
+  get newMinimumCollateralPercentage(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class NewMinimumDebt extends ethereum.Event {
+  get params(): NewMinimumDebt__Params {
+    return new NewMinimumDebt__Params(this);
+  }
+}
+
+export class NewMinimumDebt__Params {
+  _event: NewMinimumDebt;
+
+  constructor(event: NewMinimumDebt) {
+    this._event = event;
+  }
+
+  get newMinimumDebt(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class NewOpeningFee extends ethereum.Event {
   get params(): NewOpeningFee__Params {
     return new NewOpeningFee__Params(this);
@@ -310,6 +382,60 @@ export class NewPeg__Params {
   }
 
   get newPew(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class NewPriceSource extends ethereum.Event {
+  get params(): NewPriceSource__Params {
+    return new NewPriceSource__Params(this);
+  }
+}
+
+export class NewPriceSource__Params {
+  _event: NewPriceSource;
+
+  constructor(event: NewPriceSource) {
+    this._event = event;
+  }
+
+  get newPriceSource(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class NewStabilityPools extends ethereum.Event {
+  get params(): NewStabilityPools__Params {
+    return new NewStabilityPools__Params(this);
+  }
+}
+
+export class NewStabilityPools__Params {
+  _event: NewStabilityPools;
+
+  constructor(event: NewStabilityPools) {
+    this._event = event;
+  }
+
+  get newStabilityPool(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+}
+
+export class NewTreasury extends ethereum.Event {
+  get params(): NewTreasury__Params {
+    return new NewTreasury__Params(this);
+  }
+}
+
+export class NewTreasury__Params {
+  _event: NewTreasury;
+
+  constructor(event: NewTreasury) {
+    this._event = event;
+  }
+
+  get newTreasury(): BigInt {
     return this._event.parameters[0].value.toBigInt();
   }
 }
@@ -598,6 +724,29 @@ export class Bank extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  checkLiquidation(vaultId_: BigInt): boolean {
+    let result = super.call(
+      "checkLiquidation",
+      "checkLiquidation(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(vaultId_)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_checkLiquidation(vaultId_: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "checkLiquidation",
+      "checkLiquidation(uint256):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(vaultId_)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
   closingFee(): BigInt {
     let result = super.call("closingFee", "closingFee():(uint256)", []);
 
@@ -817,6 +966,36 @@ export class Bank extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  minimumDebt(): BigInt {
+    let result = super.call("minimumDebt", "minimumDebt():(uint256)", []);
+
+    return result[0].toBigInt();
+  }
+
+  try_minimumDebt(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall("minimumDebt", "minimumDebt():(uint256)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  mintingPaused(): boolean {
+    let result = super.call("mintingPaused", "mintingPaused():(bool)", []);
+
+    return result[0].toBoolean();
+  }
+
+  try_mintingPaused(): ethereum.CallResult<boolean> {
+    let result = super.tryCall("mintingPaused", "mintingPaused():(bool)", []);
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   name(): string {
@@ -1247,36 +1426,6 @@ export class BorrowTokenCall__Outputs {
   _call: BorrowTokenCall;
 
   constructor(call: BorrowTokenCall) {
-    this._call = call;
-  }
-}
-
-export class ChangeTreasuryCall extends ethereum.Call {
-  get inputs(): ChangeTreasuryCall__Inputs {
-    return new ChangeTreasuryCall__Inputs(this);
-  }
-
-  get outputs(): ChangeTreasuryCall__Outputs {
-    return new ChangeTreasuryCall__Outputs(this);
-  }
-}
-
-export class ChangeTreasuryCall__Inputs {
-  _call: ChangeTreasuryCall;
-
-  constructor(call: ChangeTreasuryCall) {
-    this._call = call;
-  }
-
-  get to(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-}
-
-export class ChangeTreasuryCall__Outputs {
-  _call: ChangeTreasuryCall;
-
-  constructor(call: ChangeTreasuryCall) {
     this._call = call;
   }
 }
@@ -1873,6 +2022,96 @@ export class SetGatewayCall__Outputs {
   _call: SetGatewayCall;
 
   constructor(call: SetGatewayCall) {
+    this._call = call;
+  }
+}
+
+export class SetMinimumCollateralPercentageCall extends ethereum.Call {
+  get inputs(): SetMinimumCollateralPercentageCall__Inputs {
+    return new SetMinimumCollateralPercentageCall__Inputs(this);
+  }
+
+  get outputs(): SetMinimumCollateralPercentageCall__Outputs {
+    return new SetMinimumCollateralPercentageCall__Outputs(this);
+  }
+}
+
+export class SetMinimumCollateralPercentageCall__Inputs {
+  _call: SetMinimumCollateralPercentageCall;
+
+  constructor(call: SetMinimumCollateralPercentageCall) {
+    this._call = call;
+  }
+
+  get mcp_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetMinimumCollateralPercentageCall__Outputs {
+  _call: SetMinimumCollateralPercentageCall;
+
+  constructor(call: SetMinimumCollateralPercentageCall) {
+    this._call = call;
+  }
+}
+
+export class SetMinimumDebtCall extends ethereum.Call {
+  get inputs(): SetMinimumDebtCall__Inputs {
+    return new SetMinimumDebtCall__Inputs(this);
+  }
+
+  get outputs(): SetMinimumDebtCall__Outputs {
+    return new SetMinimumDebtCall__Outputs(this);
+  }
+}
+
+export class SetMinimumDebtCall__Inputs {
+  _call: SetMinimumDebtCall;
+
+  constructor(call: SetMinimumDebtCall) {
+    this._call = call;
+  }
+
+  get minimumDebt_(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class SetMinimumDebtCall__Outputs {
+  _call: SetMinimumDebtCall;
+
+  constructor(call: SetMinimumDebtCall) {
+    this._call = call;
+  }
+}
+
+export class SetMintingPausedCall extends ethereum.Call {
+  get inputs(): SetMintingPausedCall__Inputs {
+    return new SetMintingPausedCall__Inputs(this);
+  }
+
+  get outputs(): SetMintingPausedCall__Outputs {
+    return new SetMintingPausedCall__Outputs(this);
+  }
+}
+
+export class SetMintingPausedCall__Inputs {
+  _call: SetMintingPausedCall;
+
+  constructor(call: SetMintingPausedCall) {
+    this._call = call;
+  }
+
+  get paused_(): boolean {
+    return this._call.inputValues[0].value.toBoolean();
+  }
+}
+
+export class SetMintingPausedCall__Outputs {
+  _call: SetMintingPausedCall;
+
+  constructor(call: SetMintingPausedCall) {
     this._call = call;
   }
 }

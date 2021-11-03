@@ -54,6 +54,19 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "bool",
+        "name": "mintingPaused",
+        "type": "bool"
+      }
+    ],
+    "name": "BankPaused",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "vaultID",
         "type": "uint256"
@@ -238,6 +251,45 @@
     "inputs": [
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "newGateway",
+        "type": "address"
+      }
+    ],
+    "name": "NewGateway",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMinimumCollateralPercentage",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewMinimumCollateralPercentage",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMinimumDebt",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewMinimumDebt",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "newOpeningFee",
         "type": "uint256"
@@ -257,6 +309,45 @@
       }
     ],
     "name": "NewPeg",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newPriceSource",
+        "type": "address"
+      }
+    ],
+    "name": "NewPriceSource",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newStabilityPool",
+        "type": "address"
+      }
+    ],
+    "name": "NewStabilityPools",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newTreasury",
+        "type": "uint256"
+      }
+    ],
+    "name": "NewTreasury",
     "type": "event"
   },
   {
@@ -512,19 +603,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      }
-    ],
-    "name": "changeTreasury",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "vaultId_",
         "type": "uint256"
@@ -569,7 +647,13 @@
       }
     ],
     "name": "checkLiquidation",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -880,6 +964,32 @@
   },
   {
     "inputs": [],
+    "name": "minimumDebt",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "mintingPaused",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "name",
     "outputs": [
       {
@@ -1128,6 +1238,45 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "mcp_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinimumCollateralPercentage",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "minimumDebt_",
+        "type": "uint256"
+      }
+    ],
+    "name": "setMinimumDebt",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "paused_",
+        "type": "bool"
+      }
+    ],
+    "name": "setMintingPaused",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
       }
@@ -1239,7 +1388,7 @@
     "name": "token",
     "outputs": [
       {
-        "internalType": "contract IERC20",
+        "internalType": "contract IERC20Metadata",
         "name": "",
         "type": "address"
       }
