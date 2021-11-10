@@ -33,7 +33,6 @@ export function handleTransfer(event: Transfer): void {
     orca.maxSupply = amount;
   } else if (
     from == '0x318dfbe56155f9999fa913cddcaa5764a2b52134' ||
-    from == '0x4422fb9afb547e8ed7a61ac9de0255c760ea55c1' ||
     from == '0x111e1e97435b57467e79d4930acc4b7eb3d478ad' ||
     from == '0x8b1d98a91f853218ddbb066f20b8c63e782e2430' ||
     from == '0x4fb25469d273225e2b777d80e27754776ecbcee5'

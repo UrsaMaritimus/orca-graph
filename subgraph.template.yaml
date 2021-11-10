@@ -194,6 +194,31 @@ dataSources:
         - event: Withdraw(indexed address,indexed uint256,uint256)
           handler: handleWithdraw
       file: ./src/singleStaking.ts
+  - kind: ethereum/contract
+    name: OrcaPod
+    network: {{network}}
+    source:
+      address: '{{pod}}'
+      abi: OrcaPod
+      startBlock: {{startblock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Pod
+        - User
+      abis:
+        - name: OrcaPod
+          file: ./abis/OrcaPod.json
+        - name: Orca
+          file: ./abis/Orca.json
+        - name: Pair
+          file: ./abis/Pair.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: transfer
+      file: ./src/orcaPod.ts
 
 
 templates:

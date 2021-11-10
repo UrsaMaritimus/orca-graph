@@ -561,6 +561,23 @@ export class User extends Entity {
       this.set("staking", Value.fromStringArray(value as Array<string>));
     }
   }
+
+  get pod(): Array<string> | null {
+    let value = this.get("pod");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set pod(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("pod");
+    } else {
+      this.set("pod", Value.fromStringArray(value as Array<string>));
+    }
+  }
 }
 
 export class Liquidation extends Entity {
@@ -1195,5 +1212,547 @@ export class StakingUser extends Entity {
 
   set staked(value: BigInt) {
     this.set("staked", Value.fromBigInt(value));
+  }
+}
+
+export class Pod extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Pod entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Pod entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Pod", id.toString(), this);
+  }
+
+  static load(id: string): Pod | null {
+    return store.get("Pod", id) as Pod | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get decimals(): i32 {
+    let value = this.get("decimals");
+    return value.toI32();
+  }
+
+  set decimals(value: i32) {
+    this.set("decimals", Value.fromI32(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get orca(): Bytes {
+    let value = this.get("orca");
+    return value.toBytes();
+  }
+
+  set orca(value: Bytes) {
+    this.set("orca", Value.fromBytes(value));
+  }
+
+  get symbol(): string {
+    let value = this.get("symbol");
+    return value.toString();
+  }
+
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
+  }
+
+  get totalSupply(): BigDecimal {
+    let value = this.get("totalSupply");
+    return value.toBigDecimal();
+  }
+
+  set totalSupply(value: BigDecimal) {
+    this.set("totalSupply", Value.fromBigDecimal(value));
+  }
+
+  get ratio(): BigDecimal {
+    let value = this.get("ratio");
+    return value.toBigDecimal();
+  }
+
+  set ratio(value: BigDecimal) {
+    this.set("ratio", Value.fromBigDecimal(value));
+  }
+
+  get xorcaMinted(): BigDecimal {
+    let value = this.get("xorcaMinted");
+    return value.toBigDecimal();
+  }
+
+  set xorcaMinted(value: BigDecimal) {
+    this.set("xorcaMinted", Value.fromBigDecimal(value));
+  }
+
+  get xorcaBurned(): BigDecimal {
+    let value = this.get("xorcaBurned");
+    return value.toBigDecimal();
+  }
+
+  set xorcaBurned(value: BigDecimal) {
+    this.set("xorcaBurned", Value.fromBigDecimal(value));
+  }
+
+  get orcaStaked(): BigDecimal {
+    let value = this.get("orcaStaked");
+    return value.toBigDecimal();
+  }
+
+  set orcaStaked(value: BigDecimal) {
+    this.set("orcaStaked", Value.fromBigDecimal(value));
+  }
+
+  get orcaStakedUSD(): BigDecimal {
+    let value = this.get("orcaStakedUSD");
+    return value.toBigDecimal();
+  }
+
+  set orcaStakedUSD(value: BigDecimal) {
+    this.set("orcaStakedUSD", Value.fromBigDecimal(value));
+  }
+
+  get orcaHarvested(): BigDecimal {
+    let value = this.get("orcaHarvested");
+    return value.toBigDecimal();
+  }
+
+  set orcaHarvested(value: BigDecimal) {
+    this.set("orcaHarvested", Value.fromBigDecimal(value));
+  }
+
+  get orcaHarvestedUSD(): BigDecimal {
+    let value = this.get("orcaHarvestedUSD");
+    return value.toBigDecimal();
+  }
+
+  set orcaHarvestedUSD(value: BigDecimal) {
+    this.set("orcaHarvestedUSD", Value.fromBigDecimal(value));
+  }
+
+  get xorcaAge(): BigDecimal {
+    let value = this.get("xorcaAge");
+    return value.toBigDecimal();
+  }
+
+  set xorcaAge(value: BigDecimal) {
+    this.set("xorcaAge", Value.fromBigDecimal(value));
+  }
+
+  get xorcaAgeDestroyed(): BigDecimal {
+    let value = this.get("xorcaAgeDestroyed");
+    return value.toBigDecimal();
+  }
+
+  set xorcaAgeDestroyed(value: BigDecimal) {
+    this.set("xorcaAgeDestroyed", Value.fromBigDecimal(value));
+  }
+
+  get PodUser(): Array<string> {
+    let value = this.get("PodUser");
+    return value.toStringArray();
+  }
+
+  set PodUser(value: Array<string>) {
+    this.set("PodUser", Value.fromStringArray(value));
+  }
+
+  get updatedAt(): BigInt {
+    let value = this.get("updatedAt");
+    return value.toBigInt();
+  }
+
+  set updatedAt(value: BigInt) {
+    this.set("updatedAt", Value.fromBigInt(value));
+  }
+}
+
+export class PodUser extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save PodUser entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save PodUser entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("PodUser", id.toString(), this);
+  }
+
+  static load(id: string): PodUser | null {
+    return store.get("PodUser", id) as PodUser | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get user(): string {
+    let value = this.get("user");
+    return value.toString();
+  }
+
+  set user(value: string) {
+    this.set("user", Value.fromString(value));
+  }
+
+  get pod(): string | null {
+    let value = this.get("pod");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set pod(value: string | null) {
+    if (value === null) {
+      this.unset("pod");
+    } else {
+      this.set("pod", Value.fromString(value as string));
+    }
+  }
+
+  get xorca(): BigDecimal {
+    let value = this.get("xorca");
+    return value.toBigDecimal();
+  }
+
+  set xorca(value: BigDecimal) {
+    this.set("xorca", Value.fromBigDecimal(value));
+  }
+
+  get xorcaIn(): BigDecimal {
+    let value = this.get("xorcaIn");
+    return value.toBigDecimal();
+  }
+
+  set xorcaIn(value: BigDecimal) {
+    this.set("xorcaIn", Value.fromBigDecimal(value));
+  }
+
+  get xorcaOut(): BigDecimal {
+    let value = this.get("xorcaOut");
+    return value.toBigDecimal();
+  }
+
+  set xorcaOut(value: BigDecimal) {
+    this.set("xorcaOut", Value.fromBigDecimal(value));
+  }
+
+  get xorcaMinted(): BigDecimal {
+    let value = this.get("xorcaMinted");
+    return value.toBigDecimal();
+  }
+
+  set xorcaMinted(value: BigDecimal) {
+    this.set("xorcaMinted", Value.fromBigDecimal(value));
+  }
+
+  get xorcaBurned(): BigDecimal {
+    let value = this.get("xorcaBurned");
+    return value.toBigDecimal();
+  }
+
+  set xorcaBurned(value: BigDecimal) {
+    this.set("xorcaBurned", Value.fromBigDecimal(value));
+  }
+
+  get xorcaOffset(): BigDecimal {
+    let value = this.get("xorcaOffset");
+    return value.toBigDecimal();
+  }
+
+  set xorcaOffset(value: BigDecimal) {
+    this.set("xorcaOffset", Value.fromBigDecimal(value));
+  }
+
+  get xorcaAge(): BigDecimal {
+    let value = this.get("xorcaAge");
+    return value.toBigDecimal();
+  }
+
+  set xorcaAge(value: BigDecimal) {
+    this.set("xorcaAge", Value.fromBigDecimal(value));
+  }
+
+  get xorcaAgeDestroyed(): BigDecimal {
+    let value = this.get("xorcaAgeDestroyed");
+    return value.toBigDecimal();
+  }
+
+  set xorcaAgeDestroyed(value: BigDecimal) {
+    this.set("xorcaAgeDestroyed", Value.fromBigDecimal(value));
+  }
+
+  get orcaStaked(): BigDecimal {
+    let value = this.get("orcaStaked");
+    return value.toBigDecimal();
+  }
+
+  set orcaStaked(value: BigDecimal) {
+    this.set("orcaStaked", Value.fromBigDecimal(value));
+  }
+
+  get orcaStakedUSD(): BigDecimal {
+    let value = this.get("orcaStakedUSD");
+    return value.toBigDecimal();
+  }
+
+  set orcaStakedUSD(value: BigDecimal) {
+    this.set("orcaStakedUSD", Value.fromBigDecimal(value));
+  }
+
+  get orcaHarvested(): BigDecimal {
+    let value = this.get("orcaHarvested");
+    return value.toBigDecimal();
+  }
+
+  set orcaHarvested(value: BigDecimal) {
+    this.set("orcaHarvested", Value.fromBigDecimal(value));
+  }
+
+  get orcaHarvestedUSD(): BigDecimal {
+    let value = this.get("orcaHarvestedUSD");
+    return value.toBigDecimal();
+  }
+
+  set orcaHarvestedUSD(value: BigDecimal) {
+    this.set("orcaHarvestedUSD", Value.fromBigDecimal(value));
+  }
+
+  get orcaOut(): BigDecimal {
+    let value = this.get("orcaOut");
+    return value.toBigDecimal();
+  }
+
+  set orcaOut(value: BigDecimal) {
+    this.set("orcaOut", Value.fromBigDecimal(value));
+  }
+
+  get orcaIn(): BigDecimal {
+    let value = this.get("orcaIn");
+    return value.toBigDecimal();
+  }
+
+  set orcaIn(value: BigDecimal) {
+    this.set("orcaIn", Value.fromBigDecimal(value));
+  }
+
+  get usdOut(): BigDecimal {
+    let value = this.get("usdOut");
+    return value.toBigDecimal();
+  }
+
+  set usdOut(value: BigDecimal) {
+    this.set("usdOut", Value.fromBigDecimal(value));
+  }
+
+  get usdIn(): BigDecimal {
+    let value = this.get("usdIn");
+    return value.toBigDecimal();
+  }
+
+  set usdIn(value: BigDecimal) {
+    this.set("usdIn", Value.fromBigDecimal(value));
+  }
+
+  get updatedAt(): BigInt {
+    let value = this.get("updatedAt");
+    return value.toBigInt();
+  }
+
+  set updatedAt(value: BigInt) {
+    this.set("updatedAt", Value.fromBigInt(value));
+  }
+
+  get orcaOffset(): BigDecimal {
+    let value = this.get("orcaOffset");
+    return value.toBigDecimal();
+  }
+
+  set orcaOffset(value: BigDecimal) {
+    this.set("orcaOffset", Value.fromBigDecimal(value));
+  }
+
+  get usdOffset(): BigDecimal {
+    let value = this.get("usdOffset");
+    return value.toBigDecimal();
+  }
+
+  set usdOffset(value: BigDecimal) {
+    this.set("usdOffset", Value.fromBigDecimal(value));
+  }
+}
+
+export class History extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save History entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save History entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("History", id.toString(), this);
+  }
+
+  static load(id: string): History | null {
+    return store.get("History", id) as History | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get date(): i32 {
+    let value = this.get("date");
+    return value.toI32();
+  }
+
+  set date(value: i32) {
+    this.set("date", Value.fromI32(value));
+  }
+
+  get timeframe(): string {
+    let value = this.get("timeframe");
+    return value.toString();
+  }
+
+  set timeframe(value: string) {
+    this.set("timeframe", Value.fromString(value));
+  }
+
+  get orcaStaked(): BigDecimal {
+    let value = this.get("orcaStaked");
+    return value.toBigDecimal();
+  }
+
+  set orcaStaked(value: BigDecimal) {
+    this.set("orcaStaked", Value.fromBigDecimal(value));
+  }
+
+  get orcaStakedUSD(): BigDecimal {
+    let value = this.get("orcaStakedUSD");
+    return value.toBigDecimal();
+  }
+
+  set orcaStakedUSD(value: BigDecimal) {
+    this.set("orcaStakedUSD", Value.fromBigDecimal(value));
+  }
+
+  get orcaHarvested(): BigDecimal {
+    let value = this.get("orcaHarvested");
+    return value.toBigDecimal();
+  }
+
+  set orcaHarvested(value: BigDecimal) {
+    this.set("orcaHarvested", Value.fromBigDecimal(value));
+  }
+
+  get orcaHarvestedUSD(): BigDecimal {
+    let value = this.get("orcaHarvestedUSD");
+    return value.toBigDecimal();
+  }
+
+  set orcaHarvestedUSD(value: BigDecimal) {
+    this.set("orcaHarvestedUSD", Value.fromBigDecimal(value));
+  }
+
+  get xorcaAge(): BigDecimal {
+    let value = this.get("xorcaAge");
+    return value.toBigDecimal();
+  }
+
+  set xorcaAge(value: BigDecimal) {
+    this.set("xorcaAge", Value.fromBigDecimal(value));
+  }
+
+  get xorcaAgeDestroyed(): BigDecimal {
+    let value = this.get("xorcaAgeDestroyed");
+    return value.toBigDecimal();
+  }
+
+  set xorcaAgeDestroyed(value: BigDecimal) {
+    this.set("xorcaAgeDestroyed", Value.fromBigDecimal(value));
+  }
+
+  get xorcaMinted(): BigDecimal {
+    let value = this.get("xorcaMinted");
+    return value.toBigDecimal();
+  }
+
+  set xorcaMinted(value: BigDecimal) {
+    this.set("xorcaMinted", Value.fromBigDecimal(value));
+  }
+
+  get xorcaBurned(): BigDecimal {
+    let value = this.get("xorcaBurned");
+    return value.toBigDecimal();
+  }
+
+  set xorcaBurned(value: BigDecimal) {
+    this.set("xorcaBurned", Value.fromBigDecimal(value));
+  }
+
+  get xorcaSupply(): BigDecimal {
+    let value = this.get("xorcaSupply");
+    return value.toBigDecimal();
+  }
+
+  set xorcaSupply(value: BigDecimal) {
+    this.set("xorcaSupply", Value.fromBigDecimal(value));
+  }
+
+  get ratio(): BigDecimal {
+    let value = this.get("ratio");
+    return value.toBigDecimal();
+  }
+
+  set ratio(value: BigDecimal) {
+    this.set("ratio", Value.fromBigDecimal(value));
   }
 }
