@@ -26,7 +26,9 @@ import {
   Transfer as TransferEvent,
 } from '../generated/OrcaPod/OrcaPod';
 
-function getOrcaPrice(): BigDecimal {
+import { createUser } from './helpers';
+
+export function getOrcaPrice(): BigDecimal {
   const pair = PairContract.bind(ORCA_AVAI_PAIR_ADDRESS);
   const reserves = pair.getReserves();
   return reserves.value1
@@ -69,14 +71,14 @@ function getPod(block: ethereum.Block): Pod {
   return bar as Pod;
 }
 
-function createUser(address: Address, block: ethereum.Block): PodUser {
+function createPodUser(address: Address, block: ethereum.Block): PodUser {
   const user = new PodUser(address.toHex());
-
+  const actualUser = createUser(address);
   // Set relation to bar
   user.pod = dataSource.address().toHex();
 
   // TODO: Add user here
-  user.user = '';
+  user.user = actualUser.id;
 
   user.xorca = BIG_DECIMAL_ZERO;
   user.xorcaMinted = BIG_DECIMAL_ZERO;
@@ -112,13 +114,13 @@ function getUser(address: Address, block: ethereum.Block): PodUser {
   let user = PodUser.load(address.toHex());
 
   if (user === null) {
-    user = createUser(address, block);
+    user = createPodUser(address, block);
   }
 
   return user as PodUser;
 }
 
-function getHistory(block: ethereum.Block): History {
+export function getHistory(block: ethereum.Block): History {
   const day = block.timestamp.toI32() / 86400;
 
   const id = BigInt.fromI32(day).toString();
@@ -167,7 +169,9 @@ export function transfer(event: TransferEvent): void {
   bar.orcaStaked = OrcaContract.bind(ORCA_TOKEN_ADDRESS)
     .balanceOf(ORCA_POD_ADDRESS)
     .divDecimal(BIG_DECIMAL_1E18);
-  bar.ratio = bar.orcaStaked.div(bar.totalSupply);
+  if (bar.totalSupply.equals(BigDecimal.fromString('0'))) {
+    bar.ratio = BigDecimal.fromString('1');
+  } else bar.ratio = bar.orcaStaked.div(bar.totalSupply);
 
   const what = value.times(bar.ratio);
 

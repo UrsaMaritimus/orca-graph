@@ -14,7 +14,7 @@ export let BIG_DECIMAL_1E6 = BigDecimal.fromString('1000000');
 
 // TO DO Change for mainnet
 export let ORCA_POD_ADDRESS = Address.fromString(
-  '0x69fA005CEe59C3BBd657A38B67E32388910653B4'
+  '0x69fa005cee59c3bbd657a38b67e32388910653b'
 );
 // TO DO Change for mainnet
 export let ORCA_TOKEN_ADDRESS = Address.fromString(

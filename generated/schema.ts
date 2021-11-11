@@ -562,20 +562,20 @@ export class User extends Entity {
     }
   }
 
-  get pod(): Array<string> | null {
+  get pod(): string | null {
     let value = this.get("pod");
     if (value === null || value.kind == ValueKind.NULL) {
       return null;
     } else {
-      return value.toStringArray();
+      return value.toString();
     }
   }
 
-  set pod(value: Array<string> | null) {
+  set pod(value: string | null) {
     if (value === null) {
       this.unset("pod");
     } else {
-      this.set("pod", Value.fromStringArray(value as Array<string>));
+      this.set("pod", Value.fromString(value as string));
     }
   }
 }

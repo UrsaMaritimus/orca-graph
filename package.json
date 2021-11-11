@@ -11,7 +11,7 @@
     "deploy-fuji": "graph deploy --product hosted-service ursamaritimus/orcadao",
     "create-local": "graph create --node http://localhost:8020/ orca-dao",
     "remove-local": "graph remove --node http://localhost:8020/ orca-dao",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 orca-dao"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 orcadao"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.21.1",

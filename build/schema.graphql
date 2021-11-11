@@ -92,6 +92,7 @@ type User @entity {
   liquidations: [Liquidation!] @derivedFrom(field: "user")
   pools: [PoolUser!] @derivedFrom(field: "user")
   staking: [StakingUser!] @derivedFrom(field: "user")
+  pod: PodUser @derivedFrom(field: "user")
 }
 
 type Liquidation @entity {
@@ -178,4 +179,150 @@ type StakingUser @entity {
   staking: Staking!
   user: User!
   staked: BigInt!
+}
+
+# Pod
+type Pod @entity {
+  # Contract address
+  id: ID!
+
+  # Decimals
+  decimals: Int!
+
+  # Name
+  name: String!
+
+  # orca token
+  orca: Bytes!
+
+  # Symbol
+  symbol: String!
+
+  # Total xorca supply
+  totalSupply: BigDecimal!
+
+  # Ratio xorca per orca
+  ratio: BigDecimal!
+
+  # xorca minted
+  xorcaMinted: BigDecimal!
+
+  # xorca burned
+  xorcaBurned: BigDecimal!
+
+  # orca staked
+  orcaStaked: BigDecimal!
+
+  # orca staked USD
+  orcaStakedUSD: BigDecimal!
+
+  # orca harvested
+  orcaHarvested: BigDecimal!
+
+  # orca harvested USD
+  orcaHarvestedUSD: BigDecimal!
+
+  # xorca age
+  xorcaAge: BigDecimal!
+
+  # xorca age destroyed
+  xorcaAgeDestroyed: BigDecimal!
+
+  # Users in the bar
+  PodUser: [PodUser!]! @derivedFrom(field: "pod")
+
+  # Updated at
+  updatedAt: BigInt!
+}
+
+# PodUser
+type PodUser @entity {
+  # ID
+  id: ID!
+
+  #User id
+  user: User!
+
+  # Bar
+  pod: Pod
+
+  # xorca (balance)
+  xorca: BigDecimal!
+
+  # xorca In
+  xorcaIn: BigDecimal!
+
+  # xorca Out
+  xorcaOut: BigDecimal!
+
+  # Minted
+  xorcaMinted: BigDecimal!
+
+  # Burned
+  xorcaBurned: BigDecimal!
+
+  # xorca offset
+  xorcaOffset: BigDecimal!
+
+  # xorca age
+  xorcaAge: BigDecimal!
+
+  # xorca age destroyed
+  xorcaAgeDestroyed: BigDecimal!
+
+  # Staked
+  orcaStaked: BigDecimal!
+
+  # Sum of $ at time of staking
+  orcaStakedUSD: BigDecimal!
+
+  # Harvested
+  orcaHarvested: BigDecimal!
+
+  # Sum of $ at time of harvesting
+  orcaHarvestedUSD: BigDecimal!
+
+  # To get pod pending orca (xorca * staked / bar.totalSupply)
+
+  # orca Out
+  orcaOut: BigDecimal!
+
+  # orca In
+  orcaIn: BigDecimal!
+
+  # USD Out
+  usdOut: BigDecimal!
+
+  # USD In
+  usdIn: BigDecimal!
+
+  # Updated at
+  updatedAt: BigInt!
+
+  # orca offset
+  orcaOffset: BigDecimal!
+
+  # usd offset
+  usdOffset: BigDecimal!
+}
+
+# History
+enum Timeframe {
+  Day
+}
+
+type History @entity {
+  id: ID!
+  date: Int!
+  timeframe: Timeframe!
+  orcaStaked: BigDecimal!
+  orcaStakedUSD: BigDecimal!
+  orcaHarvested: BigDecimal!
+  orcaHarvestedUSD: BigDecimal!
+  xorcaAge: BigDecimal!
+  xorcaAgeDestroyed: BigDecimal!
+  xorcaMinted: BigDecimal!
+  xorcaBurned: BigDecimal!
+  xorcaSupply: BigDecimal!
+  ratio: BigDecimal!
 }

@@ -8,6 +8,22 @@ export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
 export const FACTORY_ADDRESS = '0x346A59146b9b4a77100D369a3d18E8007A9F46a6';
 export const ADDRESS_TEAM = ADDRESS_ZERO;
 
+// Some constants
+export let USDC_AVAI_FUJI = Address.fromString(
+  '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'
+);
+export let USDC_AVAI_MAIN = Address.fromString(
+  '0xeD7a2B4054757Cfdb632Af15Ad528624F0fFf3B0'
+);
+
+export let AVAX_ORCA = Address.fromString(
+  '0x73e6CB72a79dEa7ed75EF5eD6f8cFf86C9128eF5'
+);
+
+export let AVAI_ORCA = Address.fromString(
+  '0x73e6CB72a79dEa7ed75EF5eD6f8cFf86C9128eF5'
+);
+
 export let ZERO_BI = BigInt.fromI32(0);
 export let ONE_BI = BigInt.fromI32(1);
 export let ZERO_BD = BigDecimal.fromString('0');

@@ -92,7 +92,7 @@ type User @entity {
   liquidations: [Liquidation!] @derivedFrom(field: "user")
   pools: [PoolUser!] @derivedFrom(field: "user")
   staking: [StakingUser!] @derivedFrom(field: "user")
-  pod: [PodUser!] @derivedFrom(field: "user")
+  pod: PodUser @derivedFrom(field: "user")
 }
 
 type Liquidation @entity {
