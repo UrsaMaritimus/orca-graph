@@ -14,13 +14,13 @@ export let BIG_DECIMAL_1E6 = BigDecimal.fromString('1000000');
 
 // TO DO Change for mainnet
 export let ORCA_POD_ADDRESS = Address.fromString(
-  '0x69fa005cee59c3bbd657a38b67e32388910653b'
+  '0x783d6AbA0D0754a4B3E1d1D92A80CB45d8fB40c8'
 );
 // TO DO Change for mainnet
 export let ORCA_TOKEN_ADDRESS = Address.fromString(
-  '0xb3308FD93936e5EFb9A1F2C6a513DEf68175Cb5d'
+  '0x8B1d98A91F853218ddbb066F20b8c63E782e2430'
 );
 // TO DO Change for mainnet
 export let ORCA_AVAI_PAIR_ADDRESS = Address.fromString(
-  '0x045c6cd1b7a6f1d6cf66e2d45a9ba8e2b58cc217'
+  '0x1a9bd67c82c0e8e47c3ad2fa772fcb9b7a831a37'
 );

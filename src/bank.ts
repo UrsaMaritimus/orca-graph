@@ -11,6 +11,7 @@ import {
   NewDebtCeiling,
   GetPaid,
   NewClosingFee,
+  NewMinimumCollateralPercentage,
 } from '../generated/templates/Bank/Bank';
 
 import { Bank, Liquidation, Token } from '../generated/schema';
@@ -197,5 +198,15 @@ export function handleNewClosingFee(event: NewClosingFee): void {
   let newClosingFee = event.params.newClosingFee;
   let bank = Bank.load(event.address.toHexString());
   bank.closingFee = newClosingFee;
+  bank.save();
+}
+
+export function handleNewMinimumCollateralPercentage(
+  event: NewMinimumCollateralPercentage
+): void {
+  let newMCP = event.params.newMinimumCollateralPercentage;
+  let bank = Bank.load(event.address.toHexString());
+  log.info('New MCP: {}, for bank: {}', [newMCP.toHexString(), bank.id]);
+  bank.minimumCollateralPercentage = newMCP;
   bank.save();
 }

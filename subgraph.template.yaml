@@ -266,3 +266,5 @@ templates:
           handler: handleNewDebtCeiling
         - event: NewClosingFee(uint256)
           handler: handleNewClosingFee
+        - event: NewMinimumCollateralPercentage(uint256)
+          handler: handleNewMinimumCollateralPercentage

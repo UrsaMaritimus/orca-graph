@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: AVAI
-    network: fuji
+    network: avalanche
     source:
-      address: "0x41f8511b889D2e32A889DAD14a9EeD9c2c737385"
+      address: "0x346A59146b9b4a77100D369a3d18E8007A9F46a6"
       abi: AVAI
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -38,11 +38,11 @@ dataSources:
       file: AVAI/AVAI.wasm
   - kind: ethereum/contract
     name: Exchange
-    network: fuji
+    network: avalanche
     source:
-      address: "0x76c09De72a38C54B3a42065fC543CfaC140e22B8"
+      address: "0x2bb9c8c7FB619aD669C99FEa6947eE52c30eb0A5"
       abi: Exchange
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -70,11 +70,11 @@ dataSources:
       file: Exchange/Exchange.wasm
   - kind: ethereum/contract
     name: PodLeader
-    network: fuji
+    network: avalanche
     source:
-      address: "0x2cD766a722622395E74daD1647aae3AAAc097930"
+      address: "0x111E1E97435b57467E79d4930acc4B7EB3d478ad"
       abi: PodLeader
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -108,11 +108,11 @@ dataSources:
       file: PodLeader/PodLeader.wasm
   - kind: ethereum/contract
     name: Orca
-    network: fuji
+    network: avalanche
     source:
-      address: "0xb3308FD93936e5EFb9A1F2C6a513DEf68175Cb5d"
+      address: "0x8B1d98A91F853218ddbb066F20b8c63E782e2430"
       abi: Orca
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -128,11 +128,11 @@ dataSources:
       file: Orca/Orca.wasm
   - kind: ethereum/contract
     name: OrcaStaking
-    network: fuji
+    network: avalanche
     source:
-      address: "0x72d62b0f3a0CEAdcD771b90537151774BD746FEA"
+      address: "0xA3654801Ba6FB21d5A984F9a857441395dDeccFb"
       abi: OrcaStaking
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -162,11 +162,11 @@ dataSources:
       file: OrcaStaking/OrcaStaking.wasm
   - kind: ethereum/contract
     name: StormStaking
-    network: fuji
+    network: avalanche
     source:
-      address: "0xDda3603B5162D73782665883a82aef86cEEFfaaf"
+      address: "0xDcc614ee35e03e742C08779F40481dB81Cf8C0a8"
       abi: SingleStaking
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -196,11 +196,11 @@ dataSources:
       file: StormStaking/StormStaking.wasm
   - kind: ethereum/contract
     name: OrcaPod
-    network: fuji
+    network: avalanche
     source:
-      address: "0x69fA005CEe59C3BBd657A38B67E32388910653B4"
+      address: "0x783d6AbA0D0754a4B3E1d1D92A80CB45d8fB40c8"
       abi: OrcaPod
-      startBlock: 1224253
+      startBlock: 4969860
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -222,7 +222,7 @@ dataSources:
 templates:
   - name: Bank
     kind: ethereum/contract
-    network: fuji
+    network: avalanche
     source:
       abi: Bank
     mapping:
@@ -264,3 +264,5 @@ templates:
           handler: handleNewDebtCeiling
         - event: NewClosingFee(uint256)
           handler: handleNewClosingFee
+        - event: NewMinimumCollateralPercentage(uint256)
+          handler: handleNewMinimumCollateralPercentage
